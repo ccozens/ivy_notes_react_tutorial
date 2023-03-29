@@ -18,4 +18,15 @@ I chose to use create-react-app and browser-router depsite this being recently d
       ....
       "server": "json-server --watch db.json --port 8000"
       }}
-8.
+8. NotePage.js text area
+
+   ```JavaScript
+   <textarea
+   value={note?.body}
+   onChange={(e) => {setNote({...note, body: e.target.value})}}
+
+   >
+   ```
+
+   1. `value={note?.body}` sets the content of the textarea as note.body
+   2. `onChange={(e) => {setNote({...note, body: e.target.value})}}` allows typing into text area and adds any typing to the note.body already present

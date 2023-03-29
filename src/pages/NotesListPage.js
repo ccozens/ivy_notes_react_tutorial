@@ -1,8 +1,20 @@
-import React from 'react';
-import notes from '../assets/data';
+import React, {useState, useEffect} from 'react';
 import ListItem from '../components/ListItem';
+import AddButton from '../components/AddButton';
 
 function NotesListPage() {
+	const [notes, setNotes] = useState([])
+
+useEffect(() => {
+	  getNotes()
+	}, [])
+	
+	const getNotes = async () => {
+		const response = await fetch('http://localhost:8000/notes')
+		const data = await response.json()
+		setNotes(data)
+	}
+	
 	return (
 		<div className="notes">
 			<div className="notes-header">
@@ -15,6 +27,7 @@ function NotesListPage() {
 					<ListItem key={index} note={note} />
 				))}
 			</div>
+			<AddButton />
 		</div>
 	);
 }
