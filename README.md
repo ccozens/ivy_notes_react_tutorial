@@ -44,3 +44,8 @@ Dennis likes to generate react and django apps separately and drag react app int
 
 CORS error occured when trying to call django rest api running on localhost://8000.
 Need to install [cors-headers](https://github.com/adamchainz/django-cors-headers) to specifically permit it.
+
+## Deployment
+At 2 h 45 min, 2 options for deployment:
+1. these apps could be left as two separate apps, deployed separately and communicate via API.
+2. let Django host react frontend. I'm going to leave this app as it is and copy it into Django frontend, so I can see how both would look.
