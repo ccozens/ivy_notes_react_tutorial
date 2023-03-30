@@ -1,20 +1,25 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import ListItem from '../components/ListItem';
 import AddButton from '../components/AddButton';
 
 function NotesListPage() {
-	const [notes, setNotes] = useState([])
+	const [notes, setNotes] = useState([]);
 
-useEffect(() => {
-	  getNotes()
-	}, [])
-	
+	useEffect(() => {
+		getNotes();
+	}, []);
+
 	const getNotes = async () => {
-		const response = await fetch('http://localhost:8000/notes')
-		const data = await response.json()
-		setNotes(data)
-	}
-	
+		const response = await fetch('http://localhost:8000/api/notes/', {
+			method: 'GET',
+			headers: {
+				'Content-type': 'application/json',
+			},
+		});
+		const data = await response.json();
+		setNotes(data);
+	};
+
 	return (
 		<div className="notes">
 			<div className="notes-header">

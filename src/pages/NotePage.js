@@ -18,7 +18,7 @@ function NotePage(props) {
 		if (noteId === 'new') return;
 		//  otherwise, do
 		const response = await fetch(
-			`http://localhost:8000/notes/${noteId}`
+			`http://localhost:8000/api/notes/${noteId}`
 		);
 		const data = await response.json();
 		setNote(data);
@@ -26,30 +26,36 @@ function NotePage(props) {
 
 	// create note
 	const createNote = async () => {
-		await fetch(`http://localhost:8000/notes`, {
+		await fetch(`http://localhost:8000/api/notes/create/`, {
 			method: 'POST',
 			headers: {
 				'Content-type': 'application/json',
 			},
-			body: JSON.stringify({ ...note, updated: new Date() }),
+			// body: JSON.stringify({ ...note, updated: new Date() }),
+			body: JSON.stringify(note),
 		});
 	};
 
 	// update note
 	const updateNote = async () => {
-		await fetch(`http://localhost:8000/notes/${noteId}`, {
+		// await fetch(`http://localhost:8000/notes/${noteId}`, {
+		await fetch(`http://localhost:8000/api/notes/${noteId}/update/`, {
 			method: 'PUT',
 			headers: {
 				'Content-type': 'application/json',
 			},
 			// usually body: JSON.stringify(note) is enough and backend handles update, but json-server needs this
-			body: JSON.stringify({ ...note, updated: new Date() }),
+			// body: JSON.stringify({ ...note, updated: new Date() }),
+			body: JSON.stringify(note),
 		});
 	};
 
 	const deleteNote = async () => {
-		await fetch(`http://localhost:8000/notes/${noteId}`, {
+		await fetch(`http://localhost:8000/api/notes/${noteId}/delete/`, {
 			method: 'DELETE',
+			headers: {
+				'Content-type': 'application/json',
+			},
 		});
 	};
 
@@ -58,11 +64,11 @@ function NotePage(props) {
 		if (noteId !== 'new' && !note.body) {
 			deleteNote();
 		}
-		// if noteId is new, create new note
-		else if (noteId !== 'new') {
+		// if noteId is not new and note.body has content, update note
+		else if (noteId !== 'new' && note.body) {
 			updateNote();
 		}
-		// if noteId is new, and body has content, create note
+		// if noteId is new and body has content, create note
 		else if (noteId === 'new' && note.body) {
 			createNote();
 		}
@@ -82,12 +88,12 @@ function NotePage(props) {
 					</Link>
 				) : (
 					<Link to="/">
-						<button onClick={handleSubmit}>Save</button>
+						<button onClick={handleSubmit}>Done</button>
 					</Link>
 				)}
 			</div>
 			<textarea
-				value={note?.body}
+				value={note ? note.body : ''}
 				onChange={(e) => {
 					setNote({ ...note, body: e.target.value });
 				}}></textarea>
